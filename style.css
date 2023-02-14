@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;1,500&display=swap');
 
 * {
     margin: 0;
@@ -10,12 +10,15 @@
 body {
     height: 100vh;
     display: flex;
+    gap: 10px;
+    text-align: center;
     flex-direction: column;
     justify-content: center;
 }
 
 .title {
     text-align: center;
+    font-style: italic;
     margin-top: 50px;
     text-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
 }
@@ -42,14 +45,21 @@ body {
 }
 
 .toolbar {
+    box-shadow: rgb(0, 0, 0, 0.1) 0 0 10px;
     background-color: rgb(245, 245, 245);
-    padding: 10px;
+    padding: 30px;
     border-radius: 10px;
     height: 800px;
     width: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 10px;
+}
+
+.toolbar img {
+    border-radius: 10px;
+    width: 50px;
 }
 
 #color-picker {
@@ -60,4 +70,73 @@ body {
     height: 50px;
     width: 50px;
     margin-top: auto;
+}
+
+button {
+    all: unset;
+}
+
+
+/* TOOLTIP CSS*/
+.tooltip {
+    display: inline-block;
+    position: relative;
+    text-align: left;
+}
+
+.tooltip .right {
+    min-width: max-content;
+    top: 50%;
+    left: 100%;
+    margin-left: 40px;
+    transform: translate(0, -50%);
+    padding: 10px 20px;
+    color: #ffffff;
+    background-color: rgb(0, 0, 0);
+    font-size: 13px;
+    border-radius: 8px;
+    position: absolute;
+    box-shadow: rgb(0, 0, 0, 0.1) 0 0 10px;
+    text-shadow: #ffffff 0 0 20px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .right {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip .right i {
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -12px;
+    width: 12px;
+    height: 24px;
+    overflow: hidden;
+}
+
+.tooltip .right i::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 0;
+    top: 50%;
+    transform: translate(50%, -50%) rotate(-45deg);
+    background-color: rgb(0, 0, 0);
+    box-shadow: rgb(0, 0, 0, 0.1) 0 0 10px;
+}
+
+.selected {
+    background-color: rgba(0, 0, 0, 0.09);
+    transition-duration: 0.2s;
+}
+
+.line {
+    height: 1px;
+    background-color: rgb(188, 188, 188);
+    width: 20px;
 }
