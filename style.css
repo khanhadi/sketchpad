@@ -47,7 +47,7 @@ body {
 .toolbar {
     box-shadow: rgb(0, 0, 0, 0.1) 0 0 10px;
     background-color: rgb(245, 245, 245);
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
     height: 800px;
     width: 100px;
@@ -62,14 +62,39 @@ body {
     width: 50px;
 }
 
+.color-container {
+    margin-top: auto;
+}
+
 #color-picker {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+    border: none;
+    height: 60px;
+    width: 60px;
+}
+
+#color-picker::-webkit-color-swatch {
     border-radius: 10px;
-    height: 50px;
-    width: 50px;
-    margin-top: auto;
+    border: none;
+}
+
+#color-picker::-moz-color-swatch {
+    border-radius: 10px;
+    border: none;
+}
+
+.swatches {
+    display: flex;
+    gap: 3px;
+}
+
+.swatch {
+    height: 20px;
+    width: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
 button {
@@ -139,4 +164,39 @@ button {
     height: 1px;
     background-color: rgb(188, 188, 188);
     width: 20px;
+}
+
+.grid-size {
+    font-size: 14px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 80px;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000000;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000000;
+    cursor: pointer;
 }

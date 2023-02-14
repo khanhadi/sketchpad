@@ -25,6 +25,16 @@ hoverBtn.addEventListener('click', () => {
 	enableDrawing(isHover, isClick);
 });
 
+// grid size slider
+const slider = document.querySelector('.slider');
+const gridSizeText = document.querySelector('.grid-size');
+
+gridSizeText.textContent = slider.value + 'x' + slider.value;
+
+slider.addEventListener('input', () => {
+	gridSizeText.textContent = slider.value + 'x' + slider.value;
+});
+
 // color-picker
 let currentColor = '#000000'; // hex black
 
@@ -36,15 +46,33 @@ colorPicker.addEventListener('change', (e) => {
 
 // GRID
 const gridContainer = document.querySelector('.grid-container');
+
+// initialise default grid
 // pixelCount value is from (Num) x Num px, where Num = pixelCount
 let pixelCount = 16;
-gridContainer.style.gridTemplateColumns = 'repeat(' + pixelCount + ', 1fr)';
 
+gridContainer.style.gridTemplateColumns = 'repeat(' + pixelCount + ', 1fr)';
 for (let i = 0; i < pixelCount * pixelCount; i++) {
 	const pixelDiv = document.createElement('div');
 	pixelDiv.classList.add('pixel');
 	gridContainer.appendChild(pixelDiv);
 }
+
+slider.addEventListener('input', () => {
+	pixelCount = slider.value;
+	gridContainer.style.gridTemplateColumns = 'repeat(' + pixelCount + ', 1fr)';
+
+	while (gridContainer.firstChild) {
+		gridContainer.removeChild(gridContainer.lastChild);
+	}
+
+	for (let i = 0; i < pixelCount * pixelCount; i++) {
+		const pixelDiv = document.createElement('div');
+		pixelDiv.classList.add('pixel');
+		gridContainer.appendChild(pixelDiv);
+	}
+	enableDrawing(isHover, isClick); // preserve mode.
+});
 
 // drawing to the grid
 function enableDrawing(isHover, isClick) {

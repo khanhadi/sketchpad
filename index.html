@@ -31,7 +31,41 @@
                 </div>
             </div>
             <div class="line"></div>
-            <input type="color" name="color" id="color-picker">
+            <p>tools</p>
+            <div class="tooltip">
+                <img id="fill-btn" src="./assets/fill.svg">
+                <div class="right">
+                    <p>fill</p>
+                    <i></i>
+                </div>
+            </div>
+            <div class="tooltip">
+                <img id="eraser-btn" src="./assets/eraser.svg">
+                <div class="right">
+                    <p>erase</p>
+                    <i></i>
+                </div>
+            </div>
+            <div class="tooltip">
+                <img id="sketch-btn" src="./assets/sketch.svg">
+                <div class="right">
+                    <p>sketch</p>
+                    <i></i>
+                </div>
+            </div>
+            <div class="line"></div>
+            <p>grid</p>
+            <input type="range" value="16" min="16" max="64" class="slider">
+            <p class="grid-size"></p>
+            <div class="color-container">
+                <p>colors</p>
+                <input type="color" name="color" id="color-picker">
+                <div class="swatches">
+                    <div class="swatch"></div>
+                    <div class="swatch"></div>
+                    <div class="swatch"></div>
+                </div>
+            </div>
         </div>
         <div class="grid-container"></div>
     </div>
