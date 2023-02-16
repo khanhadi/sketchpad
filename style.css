@@ -41,7 +41,7 @@ body {
 }
 
 .pixel {
-    border: 0.5px dotted lightgray;
+    border: 1px dotted rgb(245, 245, 245);
 }
 
 .toolbar {
