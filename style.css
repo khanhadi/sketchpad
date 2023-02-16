@@ -7,6 +7,11 @@
     font-family: 'Josefin Sans', sans-serif;
 }
 
+a {
+    all: unset;
+    cursor: pointer;
+}
+
 body {
     height: 100vh;
     display: flex;
@@ -19,17 +24,20 @@ body {
 .title {
     text-align: center;
     font-style: italic;
-    margin-top: 50px;
+    margin-top: 20px;
     text-shadow: rgba(0, 0, 0, 0.3) 0 2px 5px;
 }
 
 .main {
-    height: 100vh;
     display: flex;
     flex: 0 1 auto;
     justify-content: center;
     align-items: center;
     gap: 30px;
+}
+
+.footer {
+    margin-top: 10px;
 }
 
 .grid-container {
@@ -38,6 +46,7 @@ body {
     flex: 0 0 auto;
     border: 2px solid black;
     display: grid;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 0 10px;
 }
 
 .pixel {
@@ -87,7 +96,11 @@ body {
 
 .swatches {
     display: flex;
+    width: 80px;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 3px;
+    cursor: pointer;
 }
 
 .swatch {
@@ -164,6 +177,12 @@ button {
     height: 1px;
     background-color: rgb(188, 188, 188);
     width: 20px;
+}
+
+#grid-btn {
+    padding: 5px 20px;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .grid-size {

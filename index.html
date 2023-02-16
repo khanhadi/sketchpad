@@ -12,7 +12,8 @@
 
 <body>
     <h1 class="title">sketchpad</h1>
-    <p>select a mode to begin.</p>
+    <p>select a mode to begin. </p>
+    <p>alt(⌥) + click to swatch colors.</p>
     <div class="main">
         <div class="toolbar">
             <p>modes</p>
@@ -46,8 +47,29 @@
                     <i></i>
                 </div>
             </div>
+            <div class="tooltip">
+                <img id="darken-btn" src="./assets/darken.svg">
+                <div class="right">
+                    <p>darken</p>
+                    <i></i>
+                </div>
+            </div>
+            <div class="tooltip">
+                <img id="lighten-btn" src="./assets/lighten.svg">
+                <div class="right">
+                    <p>lighten</p>
+                    <i></i>
+                </div>
+            </div>
+            <div class="tooltip">
+                <img id="rainbow-btn" src="./assets/rainbow.svg">
+                <div class="right">
+                    <p>rainbow</p>
+                    <i></i>
+                </div>
+            </div>
             <div class="line"></div>
-            <p>grid</p>
+            <p class="selected" id="grid-btn">grid</p>
             <input type="range" value="16" min="16" max="64" class="slider">
             <p class="grid-size"></p>
             <div class="color-container">
@@ -57,11 +79,15 @@
                     <div class="swatch"></div>
                     <div class="swatch"></div>
                     <div class="swatch"></div>
+                    <div class="swatch"></div>
+                    <div class="swatch"></div>
+                    <div class="swatch"></div>
                 </div>
             </div>
         </div>
         <div class="grid-container"></div>
     </div>
+    <div class="footer"><a href="httpswww.github.com/khanhadi">khanhadi @ 2023</a></div>
 </body>
 
 </html>

@@ -1,4 +1,5 @@
 let currentColor = '#000000'; // default color
+let gridEnabled = true;
 
 //#region TOOLBAR
 
@@ -16,7 +17,7 @@ clickBtn.addEventListener('click', () => {
 	isClick = true;
 	isHover = false;
 	console.log('Click Mode');
-	enableDrawing(isHover, isClick);
+	enableDrawing(isHover, isClick, gridEnabled);
 });
 
 hoverBtn.addEventListener('click', () => {
@@ -25,7 +26,7 @@ hoverBtn.addEventListener('click', () => {
 	isHover = true;
 	isClick = false;
 	console.log('Hover Mode');
-	enableDrawing(isHover, isClick);
+	enableDrawing(isHover, isClick, gridEnabled);
 });
 
 // tools
@@ -67,6 +68,22 @@ sketchBtn.addEventListener('click', () => {
 	}
 });
 
+// toggle grid
+const gridBtn = document.querySelector('#grid-btn');
+gridBtn.addEventListener('click', () => {
+	gridBtn.classList.toggle('selected');
+
+	if (gridBtn.classList.contains('selected')) {
+		gridEnabled = true;
+		enableDrawing(isClick, isHover, gridEnabled);
+	}
+
+	if (!gridBtn.classList.contains('selected')) {
+		gridEnabled = false;
+		enableDrawing(isClick, isHover, gridEnabled);
+	}
+});
+
 // grid size slider
 const slider = document.querySelector('.slider');
 const gridSizeText = document.querySelector('.grid-size');
@@ -79,7 +96,23 @@ slider.addEventListener('input', () => {
 const colorPicker = document.querySelector('#color-picker');
 colorPicker.addEventListener('change', (e) => {
 	currentColor = e.target.value;
-	console.log(currentColor);
+});
+
+// swatches
+const swatches = document.querySelectorAll('.swatch');
+swatches.forEach((swatch) => {
+	swatch.addEventListener('click', (e) => {
+		if (e.altKey) {
+			e.target.style.backgroundColor = colorPicker.value;
+		}
+	});
+
+	swatch.addEventListener('click', (e) => {
+		if (!e.target.style.backgroundColor == '') {
+			currentColor = e.target.style.backgroundColor;
+			colorPicker.value = rgbToHex(currentColor);
+		}
+	});
 });
 
 //#endregion
@@ -115,12 +148,22 @@ slider.addEventListener('input', () => {
 		pixelDiv.setAttribute('data-shading', 0);
 		gridContainer.appendChild(pixelDiv);
 	}
-	enableDrawing(isHover, isClick); // preserve mode
+	enableDrawing(isHover, isClick, gridEnabled); // preserve mode
 });
 
 // drawing to the grid
-function enableDrawing(isHover, isClick) {
+function enableDrawing(isHover, isClick, gridEnabled) {
 	const pixels = document.querySelectorAll('.pixel');
+
+	if (gridEnabled == false) {
+		pixels.forEach((pixel) => {
+			pixel.style.border = 'none';
+		});
+	} else {
+		pixels.forEach((pixel) => {
+			pixel.style.border = '1px dotted rgb(245, 245, 245)';
+		});
+	}
 
 	// hover mode
 	if (isHover) {
@@ -169,11 +212,11 @@ function draw() {
 }
 
 function shadeUp(color, shade) {
-	return 'rgb(' + hexToRgb(color).toString() + ',' + shade * 0.15 + ')';
+	return 'rgb(' + hexToRGB(color).toString() + ',' + shade * 0.11 + ')';
 }
 
 // thank u stackoverflow :p
-function hexToRgb(hex) {
+function hexToRGB(hex) {
 	const normal = hex.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i);
 	if (normal) return normal.slice(1).map((e) => parseInt(e, 16));
 
@@ -181,6 +224,23 @@ function hexToRgb(hex) {
 	if (shorthand) return shorthand.slice(1).map((e) => 0x11 * parseInt(e, 16));
 
 	return null;
+}
+
+function rgbToHex(rgb) {
+	// Choose correct separator
+	let sep = rgb.indexOf(',') > -1 ? ',' : ' ';
+	// Turn "rgb(r,g,b)" into [r,g,b]
+	rgb = rgb.substr(4).split(')')[0].split(sep);
+
+	let r = (+rgb[0]).toString(16),
+		g = (+rgb[1]).toString(16),
+		b = (+rgb[2]).toString(16);
+
+	if (r.length == 1) r = '0' + r;
+	if (g.length == 1) g = '0' + g;
+	if (b.length == 1) b = '0' + b;
+
+	return '#' + r + g + b;
 }
 
 //#endregion
