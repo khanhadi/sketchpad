@@ -9,22 +9,37 @@ const hoverBtn = document.querySelector('#hover-btn');
 
 let isClick = false;
 let isHover = false;
-let isSketch = false;
 
 clickBtn.addEventListener('click', () => {
-	clickBtn.classList.add('selected');
-	hoverBtn.classList.remove('selected');
-	isClick = true;
-	isHover = false;
+	clickBtn.classList.toggle('selected');
+
+	if (clickBtn.classList.contains('selected')) {
+		isClick = true;
+		isHover = false;
+		hoverBtn.classList.remove('selected');
+	}
+
+	if (!clickBtn.classList.contains('selected')) {
+		isClick = false;
+	}
+
 	console.log('Click Mode');
 	enableDrawing(isHover, isClick, gridEnabled);
 });
 
 hoverBtn.addEventListener('click', () => {
-	hoverBtn.classList.add('selected');
-	clickBtn.classList.remove('selected');
-	isHover = true;
-	isClick = false;
+	hoverBtn.classList.toggle('selected');
+
+	if (hoverBtn.classList.contains('selected')) {
+		isHover = true;
+		isClick = false;
+		clickBtn.classList.remove('selected');
+	}
+
+	if (!hoverBtn.classList.contains('selected')) {
+		isHover = false;
+	}
+
 	console.log('Hover Mode');
 	enableDrawing(isHover, isClick, gridEnabled);
 });
@@ -40,7 +55,13 @@ eraserBtn.addEventListener('click', () => {
 	if (eraserBtn.classList.contains('selected')) {
 		erase = true;
 		sketch = false;
+		darken = false;
+		lighten = false;
+		rainbow = false;
 		sketchBtn.classList.remove('selected');
+		darkenBtn.classList.remove('selected');
+		lightenBtn.classList.remove('selected');
+		rainbowBtn.classList.remove('selected');
 	}
 
 	if (!eraserBtn.classList.contains('selected')) {
@@ -56,15 +77,88 @@ sketchBtn.addEventListener('click', () => {
 	sketchBtn.classList.toggle('selected');
 
 	if (sketchBtn.classList.contains('selected')) {
-		sketch = true;
 		erase = false;
+		sketch = true;
+		darken = false;
+		lighten = false;
+		rainbow = false;
 		eraserBtn.classList.remove('selected');
-		console.log(sketch);
+		darkenBtn.classList.remove('selected');
+		lightenBtn.classList.remove('selected');
+		rainbowBtn.classList.remove('selected');
 	}
 
 	if (!sketchBtn.classList.contains('selected')) {
 		sketch = false;
-		console.log(sketch);
+	}
+});
+
+// darken
+let darken = false;
+const darkenBtn = document.querySelector('#darken-btn');
+darkenBtn.addEventListener('click', () => {
+	darkenBtn.classList.toggle('selected');
+
+	if (darkenBtn.classList.contains('selected')) {
+		erase = false;
+		sketch = false;
+		darken = true;
+		lighten = false;
+		rainbow = false;
+		eraserBtn.classList.remove('selected');
+		sketchBtn.classList.remove('selected');
+		lightenBtn.classList.remove('selected');
+		rainbowBtn.classList.remove('selected');
+	}
+
+	if (!darkenBtn.classList.contains('selected')) {
+		darken = false;
+	}
+});
+
+// lighten
+let lighten = false;
+const lightenBtn = document.querySelector('#lighten-btn');
+lightenBtn.addEventListener('click', () => {
+	lightenBtn.classList.toggle('selected');
+
+	if (lightenBtn.classList.contains('selected')) {
+		erase = false;
+		sketch = false;
+		darken = false;
+		lighten = true;
+		rainbow = false;
+		eraserBtn.classList.remove('selected');
+		sketchBtn.classList.remove('selected');
+		darkenBtn.classList.remove('selected');
+		rainbowBtn.classList.remove('selected');
+	}
+
+	if (!lightenBtn.classList.contains('selected')) {
+		lighten = false;
+	}
+});
+
+// rainbow
+let rainbow = false;
+const rainbowBtn = document.querySelector('#rainbow-btn');
+rainbowBtn.addEventListener('click', () => {
+	rainbowBtn.classList.toggle('selected');
+
+	if (rainbowBtn.classList.contains('selected')) {
+		erase = false;
+		sketch = false;
+		darken = false;
+		lighten = false;
+		rainbow = true;
+		eraserBtn.classList.remove('selected');
+		sketchBtn.classList.remove('selected');
+		darkenBtn.classList.remove('selected');
+		lightenBtn.classList.remove('selected');
+	}
+
+	if (!rainbowBtn.classList.contains('selected')) {
+		rainbow = false;
 	}
 });
 
@@ -75,12 +169,12 @@ gridBtn.addEventListener('click', () => {
 
 	if (gridBtn.classList.contains('selected')) {
 		gridEnabled = true;
-		enableDrawing(isClick, isHover, gridEnabled);
+		enableDrawing(isHover, isClick, gridEnabled);
 	}
 
 	if (!gridBtn.classList.contains('selected')) {
 		gridEnabled = false;
-		enableDrawing(isClick, isHover, gridEnabled);
+		enableDrawing(isHover, isClick, gridEnabled);
 	}
 });
 
@@ -110,7 +204,8 @@ swatches.forEach((swatch) => {
 	swatch.addEventListener('click', (e) => {
 		if (!e.target.style.backgroundColor == '') {
 			currentColor = e.target.style.backgroundColor;
-			colorPicker.value = rgbToHex(currentColor);
+			currentColor = rgbToHex(currentColor);
+			colorPicker.value = currentColor;
 		}
 	});
 });
@@ -128,6 +223,7 @@ gridContainer.style.gridTemplateColumns = 'repeat(' + pixelCount + ', 1fr)';
 for (let i = 0; i < pixelCount * pixelCount; i++) {
 	const pixelDiv = document.createElement('div');
 	pixelDiv.classList.add('pixel');
+	pixelDiv.style.backgroundColor = '#ffffff';
 	pixelDiv.setAttribute('draggable', false);
 	pixelDiv.setAttribute('data-shading', 0);
 	gridContainer.appendChild(pixelDiv);
@@ -144,6 +240,7 @@ slider.addEventListener('input', () => {
 	for (let i = 0; i < pixelCount * pixelCount; i++) {
 		const pixelDiv = document.createElement('div');
 		pixelDiv.classList.add('pixel');
+		pixelDiv.style.backgroundColor = '#ffffff';
 		pixelDiv.setAttribute('draggable', false);
 		pixelDiv.setAttribute('data-shading', 0);
 		gridContainer.appendChild(pixelDiv);
@@ -168,7 +265,6 @@ function enableDrawing(isHover, isClick, gridEnabled) {
 	// hover mode
 	if (isHover) {
 		pixels.forEach((pixel) => {
-			pixel.removeEventListener('click', draw);
 			pixel.addEventListener('mouseover', draw);
 		});
 	}
@@ -176,7 +272,6 @@ function enableDrawing(isHover, isClick, gridEnabled) {
 	// click and drag mode
 	if (isClick) {
 		pixels.forEach((pixel) => {
-			pixel.removeEventListener('mouseover', draw);
 			pixel.addEventListener('click', draw);
 		});
 
@@ -192,27 +287,99 @@ function enableDrawing(isHover, isClick, gridEnabled) {
 			});
 		});
 	}
-}
 
-function draw() {
-	if (sketch) {
-		nextVal = this.dataset.shading; // get current shade val
-		if (nextVal <= 8) {
-			nextVal++;
-		}
-		this.setAttribute('data-shading', nextVal);
-		console.log(shadeUp('#000000', nextVal));
-		this.style.backgroundColor = shadeUp('#000000', nextVal);
-	} else if (erase) {
-		this.setAttribute('data-shading', 0); // reset shading.
-		this.style.backgroundColor = '#FFFFFF';
-	} else {
-		this.style.backgroundColor = currentColor;
+	// remove all event listeners from pixels if neither are selected
+	if (!isHover && !isClick) {
+		pixels.forEach((pixel) => {
+			pixel.replaceWith(pixel.cloneNode(true));
+		});
 	}
 }
 
+// main function which draws to pixels
+function draw() {
+	if (sketch) {
+		if (this.dataset.shading < 0) {
+			// always keep shade vals for sketch positive
+			this.setAttribute('data-shading', 0);
+		}
+		nextVal = this.dataset.shading; // get current shade val
+		if (nextVal <= 9) {
+			nextVal++;
+		}
+		this.setAttribute('data-shading', nextVal);
+		this.style.backgroundColor = darkenColor('rgb(255,255,255)', nextVal);
+	} else if (erase) {
+		this.setAttribute('data-shading', 0); // reset shading
+		this.style.backgroundColor = '#FFFFFF';
+	} else if (darken) {
+		nextVal = this.dataset.shading;
+		if (nextVal <= 9) {
+			nextVal++;
+		}
+		this.setAttribute('data-shading', nextVal);
+		this.style.backgroundColor = darkenColor(this.style.backgroundColor, nextVal);
+	} else if (lighten) {
+		nextVal = this.dataset.shading;
+		if (nextVal >= -9) {
+			nextVal--;
+		}
+		this.setAttribute('data-shading', nextVal);
+		this.style.backgroundColor = lightenColor(this.style.backgroundColor, nextVal);
+	} else if (rainbow) {
+		this.style.backgroundColor = getRandomColor();
+	} else this.style.backgroundColor = currentColor;
+}
+
+function darkenColor(color, shade) {
+	color = rgbToHex(color);
+	colorArray = hexToRGB(color);
+	if (shade < 0) {
+		shade = shade * -1; // set shade to positive
+	}
+	for (let i = 0; i < colorArray.length; i++) {
+		if (colorArray[i] > 0) {
+			if (sketch) {
+				colorArray[i] = colorArray[i] - shade * 25.5;
+			} else {
+				colorArray[i] = colorArray[i] - shade * 5;
+			}
+		} else {
+			colorArray[i] = 0;
+		}
+	}
+	return 'rgb(' + colorArray.toString() + ')';
+}
+
+function lightenColor(color, shade) {
+	color = rgbToHex(color);
+	colorArray = hexToRGB(color);
+	if (shade < 0) {
+		shade = shade * -1; // set shade to positive
+	}
+	for (let i = 0; i < colorArray.length; i++) {
+		if (colorArray[i] < 255) {
+			colorArray[i] = colorArray[i] + shade * 5;
+		} else {
+			colorArray[i] = 255;
+		}
+	}
+	return 'rgb(' + colorArray.toString() + ')';
+}
+
 function shadeUp(color, shade) {
-	return 'rgb(' + hexToRGB(color).toString() + ',' + shade * 0.11 + ')';
+	return 'rgb(' + hexToRGB(color).toString() + ',' + shade * 0.1 + ')';
+}
+
+function getRandomColor() {
+	let r = randomInteger(255);
+	let g = randomInteger(255);
+	let b = randomInteger(255);
+	return 'rgb(' + r + ',' + g + ',' + b + ')';
+}
+
+function randomInteger(max) {
+	return Math.floor(Math.random() * (max + 1));
 }
 
 // thank u stackoverflow :p

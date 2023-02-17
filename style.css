@@ -51,6 +51,7 @@ body {
 
 .pixel {
     border: 1px dotted rgb(245, 245, 245);
+    background-color: #ffffff;
 }
 
 .toolbar {
